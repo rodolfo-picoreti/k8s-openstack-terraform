@@ -4,14 +4,14 @@
       "type": "openstack",
       "identity_endpoint": "http://10.30.0.2:5000/v3",
       "username": "admin",
-      "password": "<??????????????????>",
+      "password": "",
       "domain_name": "Default",
       "region": "RegionOne",
       "tenant_name": "admin",
 
       "flavor": "m1.large",
       "ssh_username": "ubuntu",
-      "image_name": "k8s",
+      "image_name": "k8s-gpu",
       "source_image_name": "ubuntu",
       "networks": "d820b85c-db31-4d83-ac97-1cc5127f445b"
     }
