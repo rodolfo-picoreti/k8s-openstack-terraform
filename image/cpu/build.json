@@ -1,14 +1,19 @@
 {
+  "variables": {
+    "username": "{{env `OS_USER_DOMAIN_NAME`}}",
+    "password": "{{env `OS_PASSWORD`}}",
+    "url": "{{env `OS_AUTH_URL`}}",
+    "domain": "{{env `OS_USER_DOMAIN_NAME`}}"
+  },
   "builders": [
     {
       "type": "openstack",
-      "identity_endpoint": "http://10.30.0.2:5000/v3",
+      "identity_endpoint": "{{user `url`}}",
       "username": "admin",
-      "password": "",
+      "password": "{{user `password`}}",
       "domain_name": "Default",
       "region": "RegionOne",
       "tenant_name": "admin",
-
       "flavor": "m1.large",
       "ssh_username": "ubuntu",
       "image_name": "k8s-cpu",
@@ -19,7 +24,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "setup.sh"
+      "script": "image/cpu/setup.sh"
     }
   ]
 }

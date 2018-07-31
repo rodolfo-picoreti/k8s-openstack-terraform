@@ -9,7 +9,7 @@ set -e
 
 add-apt-repository universe -y
 apt-get update
-apt-get install apt-transport-https ca-certificates curl software-properties-common jq moreutils -y
+apt-get install apt-transport-https ca-certificates curl software-properties-common jq moreutils chrony -y
 
 ### docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
