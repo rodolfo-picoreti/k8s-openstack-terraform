@@ -13,7 +13,27 @@ kubeadm reset
 
 if [[ ${K8_NODE_TYPE} == "master" ]]; then
 	echo "[[[[[[[[[[[[ Master Setup ]]]]]]]]]]]] "
-	kubeadm init --token ${K8_TOKEN} --token-ttl 0
+	# We need to expose the cadvisor that is installed and managed by the kubelet 
+	# daemon and allow webhook token authentication. To do so, we do the following
+	# on all the masters and nodes:
+	cat > /etc/kubeadm-config.yaml <<EOL
+kind: MasterConfiguration
+apiVersion: kubeadm.k8s.io/v1alpha1
+controllerManagerExtraArgs:
+  horizontal-pod-autoscaler-use-rest-clients: "true"
+  horizontal-pod-autoscaler-downscale-delay: "2m"
+  horizontal-pod-autoscaler-upscale-delay: "2m"
+  horizontal-pod-autoscaler-sync-period: "30s" 
+  address: 0.0.0.0
+schedulerExtraArgs:
+  address: 0.0.0.0
+apiServerExtraArgs:
+  runtime-config: "api/all=true"
+token: ${K8_TOKEN} 
+tokenTTL: 0s
+EOL
+
+	kubeadm init --config /etc/kubeadm-config.yaml
 	mkdir -p /home/ubuntu/.kube
 	cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
 	chown ubuntu /home/ubuntu/.kube/config

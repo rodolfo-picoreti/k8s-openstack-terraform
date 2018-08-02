@@ -3,3 +3,7 @@ terraform.tfstate.backup
 .terraform
 terraform
 packer
+user_secrets.yml
+openrc.sh
+k8
+k8.pub
