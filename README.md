@@ -1,16 +1,12 @@
 1. Run the bootstrap script to download dependencies.
-2. Activate the openstrack *openrc.sh* enviroment.
+2. Activate the Openstack *openrc.sh* environment.
 3. Build the base cpu image: `./packer build image/cpu/build.json`
-4. Build the base gpu image: `./packer build image/gpu/build.json`
-5. Init terraform in this folder: `./terraform init`
-6. Generate public and private keypair for the vms: `ssh-keygen -f k8`
-7. Config terraform variables:
-```shell
-export TF_VAR_password=$OS_PASSWORD
-export TF_VAR_hostname=$(echo $OS_AUTH_URL | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
-``` 
-8. Create cluster `./terraform apply`
-9. Copy kubernetes credentials from master node to your machine:
-```shell
-scp -i k8 ubuntu@<MASTER_IP>:.kube/config $HOME/.kube/config
-``` 
+4. Init terraform in this folder: `./terraform init`
+5. Generate a join token `sudo kubeadm token create --print-join-command`
+6. Apply the script to create slave nodes (Change the variables accordingly):
+```
+  ./terraform apply \
+    -var "k8_master_ip=192.168.1.105" \
+    -var "k8_token=8vbnqi.r34juhn1qhvuvjsv" \
+    -var "k8_discovery_hash=sha256:43abced7b7e92dd377b37d5a993974a237671f7883d63e9c926965b3ed24256f"
+```
