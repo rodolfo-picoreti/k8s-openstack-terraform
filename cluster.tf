@@ -24,7 +24,6 @@ resource "openstack_compute_instance_v2" "cpu_slave" {
 }
 
 resource "null_resource" "cpu_slave" {
-  depends_on = ["null_resource.master"]
   count      = "${length(openstack_compute_instance_v2.cpu_slave.*.name)}"
 
   connection {

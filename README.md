@@ -1,6 +1,6 @@
 1. Run the bootstrap script to download dependencies.
 2. Activate the Openstack *openrc.sh* environment.
-3. Build the base cpu image: `./packer build image/cpu/build.json`
+3. Build the base image, check the readme in image/cpu.
 4. Init terraform in this folder: `./terraform init`
 5. Generate a join token `sudo kubeadm token create --print-join-command`
 6. Apply the script to create slave nodes (Change the variables accordingly):
